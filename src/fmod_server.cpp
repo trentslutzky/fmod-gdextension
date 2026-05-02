@@ -253,6 +253,14 @@ void FmodServer::update() {
             delete oneShot;
             continue;
         }
+        if (oneShot->instance->get_playback_state() == FMOD_STUDIO_PLAYBACK_STOPPED) {
+            // Attached one-shots defer release() so isValid() stays true during playback.
+            // Release here once they've actually finished so FMOD can free them.
+            oneShot->instance->release();
+            oneShots.erase(oneShot);
+            delete oneShot;
+            continue;
+        }
         oneShot->instance->set_node_attributes(oneShot->wrapper.get_node());
     }
 
@@ -273,6 +281,14 @@ void FmodServer::update() {
 #endif
 
     ERROR_CHECK(system->update());
+}
+
+void FmodServer::track_attached_event(const Ref<FmodEvent>& event, Node* node) {
+    if (event.is_null() || !event->is_valid() || node == nullptr) { return; }
+    for (OneShot* shot : oneShots) {
+        if (shot->instance == event) { return; }
+    }
+    oneShots.push_back(new OneShot{NodeWrapper{node}, event});
 }
 
 void FmodServer::_set_listener_attributes() {

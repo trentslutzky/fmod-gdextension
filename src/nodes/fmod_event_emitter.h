@@ -132,6 +132,9 @@ namespace godot {
         if (Engine::get_singleton()->is_editor_hint()) { return; }
 #endif
 
+        // In godot-cpp, overriding _process does not auto-enable processing — must be explicit.
+        reinterpret_cast<Derived*>(this)->set_process(true);
+
         if (_autoplay) {
             play();
         } else if (_preload_event) {
@@ -146,23 +149,20 @@ namespace godot {
         if (Engine::get_singleton()->is_editor_hint()) { return; }
 #endif
 
-        if (_event.is_null()) {
-            // No event loaded, nothing to do here
+        if (_event.is_null()) { return; }
+
+        // Attached non-one-shot events skip release() so isValid() stays true during
+        // playback. Check playback state directly to detect when they've finished.
+        bool is_done = !_event->is_valid() ||
+                       (_attached && _event->get_playback_state() == FMOD_STUDIO_PLAYBACK_STOPPED);
+
+        if (is_done) {
+            if (_auto_release) { free(); return; }
+            if (_autoplay) { play(); return; }
             return;
         }
 
-        if (!_event->is_valid()) {
-            // Event was loaded and is done playing.
-            if (_auto_release) {
-                free();
-                return;
-            }
-            if (_autoplay) {
-                play();
-            }
-        }
-
-        if (_attached && _event->is_valid()) { set_space_attribute(_event); }
+        if (_attached) { set_space_attribute(_event); }
     }
 
     template<class Derived, class NodeType>
@@ -266,7 +266,16 @@ namespace godot {
         }
 
         event->start();
-        event->release();
+        if (!_attached) {
+            // Non-attached: release immediately so FMOD cleans up when done.
+            event->release();
+        } else if (is_one_shot) {
+            // Attached one-shot: defer release so isValid() stays true during playback.
+            // The oneShots loop in FmodServer releases the event once playback stops.
+            FmodServer::get_singleton()->track_attached_event(event, static_cast<Node*>(this));
+        }
+        // Attached non-one-shot: process() updates position each frame;
+        // exit_tree() calls release().
     }
 
     template<class Derived, class NodeType>

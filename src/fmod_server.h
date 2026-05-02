@@ -128,6 +128,7 @@ namespace godot {
         // LIFECYCLE
         void init(const Ref<FmodGeneralSettings>& p_settings);
         void update();
+        void track_attached_event(const Ref<FmodEvent>& event, Node* node);
         void shutdown();
 
         // SETTINGS
