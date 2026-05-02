@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodLoggingSettings" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Debug logging configuration for the FMOD system.
+	</brief_description>
+	<description>
+		FmodLoggingSettings controls FMOD's internal debug output. Configure it in the FMOD section of Project Settings under the Logging category.
+
+		Use [member debug_level] to control verbosity and [member log_output] to choose where messages are written.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_debug_level">
+			<return type="int" />
+			<description>
+				Returns the current debug verbosity level as a [enum DebugLevel] value.
+			</description>
+		</method>
+		<method name="get_log_file_path">
+			<return type="String" />
+			<description>
+				Returns the file path used when [member log_output] is set to [constant FMOD_DEBUG_MODE_FILE].
+			</description>
+		</method>
+		<method name="get_log_output">
+			<return type="int" />
+			<description>
+				Returns the log output destination as an [code]FMOD_DEBUG_MODE[/code] value.
+			</description>
+		</method>
+		<method name="set_debug_level">
+			<return type="void" />
+			<param index="0" name="debug_level" type="int" />
+			<description>
+				Sets the debug verbosity level. Use a [enum DebugLevel] constant.
+			</description>
+		</method>
+		<method name="set_log_file_path">
+			<return type="void" />
+			<param index="0" name="log_file_path" type="String" />
+			<description>
+				Sets the path of the log file. Only used when [member log_output] is [constant FMOD_DEBUG_MODE_FILE].
+			</description>
+		</method>
+		<method name="set_log_output">
+			<return type="void" />
+			<param index="0" name="log_output" type="int" />
+			<description>
+				Sets the log output destination. Use an [code]FMOD_DEBUG_MODE[/code] constant.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="debug_level" type="int" setter="set_debug_level" getter="get_debug_level" default="0">
+			Debug verbosity level. [code]0[/code] = inherit from Project Settings default; use [enum DebugLevel] constants for explicit values.
+		</member>
+		<member name="log_file_path" type="String" setter="set_log_file_path" getter="get_log_file_path" default="&quot;user://fmod.log&quot;">
+			Path for the debug log file. Used when [member log_output] is [constant FMOD_DEBUG_MODE_FILE].
+		</member>
+		<member name="log_output" type="int" setter="set_log_output" getter="get_log_output" default="1">
+			Where FMOD debug messages are written. Default is [constant FMOD_DEBUG_MODE_CALLBACK] ([code]1[/code]), which routes messages through Godot's output.
+		</member>
+	</members>
+	<constants>
+		<constant name="DEBUG_NONE" value="1" enum="DebugLevel">
+			No debug output.
+		</constant>
+		<constant name="DEBUG_ERROR" value="2" enum="DebugLevel">
+			Log errors only.
+		</constant>
+		<constant name="DEBUG_WARNING" value="3" enum="DebugLevel">
+			Log errors and warnings.
+		</constant>
+		<constant name="DEBUG_LOG" value="4" enum="DebugLevel">
+			Log errors, warnings, and informational messages.
+		</constant>
+		<constant name="DEBUG_VERBOSE" value="5" enum="DebugLevel">
+			Log all FMOD debug output. Very verbose — use only for debugging.
+		</constant>
+		<constant name="FMOD_DEBUG_MODE_TTY" value="0">
+			Write debug output to the system console (stdout).
+		</constant>
+		<constant name="FMOD_DEBUG_MODE_CALLBACK" value="1">
+			Route debug output through a callback. In this integration, messages are forwarded to Godot's output console.
+		</constant>
+		<constant name="FMOD_DEBUG_MODE_FILE" value="2">
+			Write debug output to a file specified by [member log_file_path].
+		</constant>
+	</constants>
+</class>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodPerformanceData" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A snapshot of FMOD CPU and memory performance metrics.
+	</brief_description>
+	<description>
+		FmodPerformanceData is a read-only snapshot of FMOD's internal performance counters. Obtain one from [method FmodServer.get_performance_data].
+
+		CPU values are percentages of one update interval; memory values are byte counts.
+		[codeblock]
+		var perf = FmodServer.get_performance_data()
+		print("Studio CPU: ", perf.studio, "%")
+		print("Memory used: ", perf.currently_allocated, " bytes")
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_convolution1">
+			<return type="float" />
+			<description>
+				Returns CPU usage (%) for the first convolution reverb DSP unit.
+			</description>
+		</method>
+		<method name="get_convolution2">
+			<return type="float" />
+			<description>
+				Returns CPU usage (%) for the second convolution reverb DSP unit.
+			</description>
+		</method>
+		<method name="get_currently_allocated">
+			<return type="int" />
+			<description>
+				Returns the number of bytes currently allocated by the FMOD memory system.
+			</description>
+		</method>
+		<method name="get_dsp">
+			<return type="float" />
+			<description>
+				Returns CPU usage (%) for the DSP mixing thread.
+			</description>
+		</method>
+		<method name="get_geometry">
+			<return type="float" />
+			<description>
+				Returns CPU usage (%) for geometry processing (occlusion and obstruction).
+			</description>
+		</method>
+		<method name="get_max_allocated">
+			<return type="int" />
+			<description>
+				Returns the peak number of bytes ever allocated by the FMOD memory system during this session.
+			</description>
+		</method>
+		<method name="get_other_bytes_read">
+			<return type="int" />
+			<description>
+				Returns the number of bytes read from sources other than sample or stream data.
+			</description>
+		</method>
+		<method name="get_sample_bytes_read">
+			<return type="int" />
+			<description>
+				Returns the number of bytes read from sample data storage this update.
+			</description>
+		</method>
+		<method name="get_stream">
+			<return type="float" />
+			<description>
+				Returns CPU usage (%) for the streaming decode thread.
+			</description>
+		</method>
+		<method name="get_stream_bytes_read">
+			<return type="int" />
+			<description>
+				Returns the number of bytes read from streaming audio sources this update.
+			</description>
+		</method>
+		<method name="get_studio">
+			<return type="float" />
+			<description>
+				Returns CPU usage (%) for the FMOD Studio update thread.
+			</description>
+		</method>
+		<method name="get_update">
+			<return type="float" />
+			<description>
+				Returns CPU usage (%) for the main FMOD update call.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="convolution1" type="float" getter="get_convolution1">
+			CPU usage (%) for the first convolution reverb unit.
+		</member>
+		<member name="convolution2" type="float" getter="get_convolution2">
+			CPU usage (%) for the second convolution reverb unit.
+		</member>
+		<member name="currently_allocated" type="int" getter="get_currently_allocated">
+			Bytes currently allocated by FMOD.
+		</member>
+		<member name="dsp" type="float" getter="get_dsp">
+			CPU usage (%) for DSP mixing.
+		</member>
+		<member name="geometry" type="float" getter="get_geometry">
+			CPU usage (%) for geometry/occlusion processing.
+		</member>
+		<member name="max_allocated" type="int" getter="get_max_allocated">
+			Peak bytes ever allocated by FMOD this session.
+		</member>
+		<member name="other_bytes_read" type="int" getter="get_other_bytes_read">
+			Bytes read from miscellaneous sources this update.
+		</member>
+		<member name="sample_bytes_read" type="int" getter="get_sample_bytes_read">
+			Bytes read from sample data this update.
+		</member>
+		<member name="stream" type="float" getter="get_stream">
+			CPU usage (%) for streaming decode.
+		</member>
+		<member name="stream_bytes_read" type="int" getter="get_stream_bytes_read">
+			Bytes read from streaming sources this update.
+		</member>
+		<member name="studio" type="float" getter="get_studio">
+			CPU usage (%) for the FMOD Studio update.
+		</member>
+		<member name="update" type="float" getter="get_update">
+			CPU usage (%) for the main FMOD update.
+		</member>
+	</members>
+</class>

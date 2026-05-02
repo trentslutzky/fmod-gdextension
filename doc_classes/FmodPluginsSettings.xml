@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodPluginsSettings" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Configuration resource for loading FMOD plugins.
+	</brief_description>
+	<description>
+		FmodPluginsSettings defines which FMOD DSP plugins should be loaded at startup. Configure it in the FMOD section of Project Settings under the Plugins category by pointing to a saved resource file.
+
+		Both dynamic (shared library) plugins and statically linked plugins can be configured here.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_dynamic_plugin_list">
+			<return type="PackedStringArray" />
+			<description>
+				Returns the list of dynamic plugin filenames to load.
+			</description>
+		</method>
+		<method name="get_fmod_plugins_base_path">
+			<return type="String" />
+			<description>
+				Returns the base directory path where plugin files are located.
+			</description>
+		</method>
+		<method name="get_static_plugins_methods">
+			<return type="Array" />
+			<description>
+				Returns the array of [FmodStaticPluginMethod] resources describing statically linked plugins.
+			</description>
+		</method>
+		<method name="set_dynamic_plugin_list">
+			<return type="void" />
+			<param index="0" name="p_dynamic_plugin_list" type="PackedStringArray" />
+			<description>
+				Sets the list of dynamic plugin filenames (without path — relative to [member plugins_base_path]).
+			</description>
+		</method>
+		<method name="set_plugins_base_path">
+			<return type="void" />
+			<param index="0" name="p_base_path" type="String" />
+			<description>
+				Sets the base directory for dynamic plugin files.
+			</description>
+		</method>
+		<method name="set_static_plugins_methods">
+			<return type="void" />
+			<param index="0" name="p_static_plugins_settings" type="Array" />
+			<description>
+				Sets the array of [FmodStaticPluginMethod] resources for statically linked plugins.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="dynamic_plugin_list" type="PackedStringArray" setter="set_dynamic_plugin_list" getter="get_dynamic_plugin_list" default="PackedStringArray()">
+			Filenames of dynamic (shared library) FMOD plugins to load at startup. Files are looked up relative to [member plugins_base_path].
+		</member>
+		<member name="plugins_base_path" type="String" setter="set_plugins_base_path" getter="get_fmod_plugins_base_path" default="&quot;&quot;">
+			Directory containing FMOD plugin shared libraries.
+		</member>
+		<member name="static_plugins_methods" type="Array" setter="set_static_plugins_methods" getter="get_static_plugins_methods" default="[]">
+			An array of [FmodStaticPluginMethod] resources that describe statically linked FMOD plugins.
+		</member>
+	</members>
+</class>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodBank" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A loaded FMOD Studio bank containing audio content and metadata.
+	</brief_description>
+	<description>
+		FmodBank represents a loaded FMOD Studio [code].bank[/code] file. Banks are the primary containers for FMOD content — they hold event definitions, audio samples, bus hierarchies, VCAs, and string tables.
+
+		Obtain a bank by loading it with [method FmodServer.load_bank]. Always load the Master bank and its strings bank before content banks.
+		[codeblock]
+		var master = FmodServer.load_bank("res://audio/Master.bank", 0)
+		var strings = FmodServer.load_bank("res://audio/Master.strings.bank", 0)
+		var music   = FmodServer.load_bank("res://audio/Music.bank", 0)
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_bus_count">
+			<return type="int" />
+			<description>
+				Returns the number of buses defined in this bank.
+			</description>
+		</method>
+		<method name="get_bus_list">
+			<return type="Array" />
+			<description>
+				Returns an [Array] of all [FmodBus] objects defined in this bank.
+			</description>
+		</method>
+		<method name="get_description_list">
+			<return type="Array" />
+			<description>
+				Returns an [Array] of all [FmodEventDescription] objects defined in this bank.
+			</description>
+		</method>
+		<method name="get_event_description_count">
+			<return type="int" />
+			<description>
+				Returns the number of event descriptions defined in this bank.
+			</description>
+		</method>
+		<method name="get_godot_res_path">
+			<return type="String" />
+			<description>
+				Returns the Godot resource path (e.g. [code]"res://audio/Music.bank"[/code]) that was used to load this bank.
+			</description>
+		</method>
+		<method name="get_guid">
+			<return type="String" />
+			<description>
+				Returns the GUID of this bank as a string.
+			</description>
+		</method>
+		<method name="get_loading_state">
+			<return type="int" />
+			<description>
+				Returns the current loading state of the bank as an [code]FMOD_STUDIO_LOADING_STATE[/code] integer:
+				[code]0[/code] = Unloading, [code]1[/code] = Unloaded, [code]2[/code] = Loading, [code]3[/code] = Loaded, [code]4[/code] = Error.
+			</description>
+		</method>
+		<method name="get_path">
+			<return type="String" />
+			<description>
+				Returns the FMOD Studio path of this bank (e.g. [code]"bank:/Music"[/code]).
+			</description>
+		</method>
+		<method name="get_string_count">
+			<return type="int" />
+			<description>
+				Returns the number of entries in the bank's string table. The strings bank provides human-readable names for events, buses, and VCAs.
+			</description>
+		</method>
+		<method name="get_vca_count">
+			<return type="int" />
+			<description>
+				Returns the number of VCAs defined in this bank.
+			</description>
+		</method>
+		<method name="get_vca_list">
+			<return type="Array" />
+			<description>
+				Returns an [Array] of all [FmodVCA] objects defined in this bank.
+			</description>
+		</method>
+		<method name="is_valid">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the underlying FMOD bank handle is still valid.
+			</description>
+		</method>
+	</methods>
+</class>

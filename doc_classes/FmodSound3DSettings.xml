@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodSound3DSettings" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		3D audio scaling settings for the FMOD system.
+	</brief_description>
+	<description>
+		FmodSound3DSettings controls how FMOD translates 3D distances and velocities to audio characteristics. Apply with [method FmodServer.set_sound_3D_settings].
+
+		These settings affect all 3D audio globally. Tune them to match your game's world scale.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_distance_factor">
+			<return type="float" />
+			<description>
+				Returns the distance factor — how many engine units equal one meter for FMOD's 3D calculations.
+			</description>
+		</method>
+		<method name="get_doppler_scale">
+			<return type="float" />
+			<description>
+				Returns the Doppler effect scale multiplier.
+			</description>
+		</method>
+		<method name="get_rolloff_scale">
+			<return type="float" />
+			<description>
+				Returns the rolloff scale multiplier for distance attenuation.
+			</description>
+		</method>
+		<method name="set_distance_factor">
+			<return type="void" />
+			<param index="0" name="p_distance_factor" type="float" />
+			<description>
+				Sets the distance factor. Use [code]1.0[/code] if one engine unit equals one meter. Adjust to match your game's scale — e.g. [code]0.01[/code] for a game where 100 units = 1 meter.
+			</description>
+		</method>
+		<method name="set_doppler_scale">
+			<return type="void" />
+			<param index="0" name="p_doppler_scale" type="float" />
+			<description>
+				Sets the Doppler effect scale. [code]0.0[/code] disables Doppler; values above [code]1.0[/code] exaggerate the effect.
+			</description>
+		</method>
+		<method name="set_rolloff_scale">
+			<return type="void" />
+			<param index="0" name="p_rolloff_scale" type="float" />
+			<description>
+				Sets the rolloff (distance attenuation) scale multiplier. [code]1.0[/code] uses FMOD Studio's authored curves as-is.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="distance_factor" type="float" setter="set_distance_factor" getter="get_distance_factor" default="1.0">
+			Number of engine units per meter. Scales all 3D distance calculations. Default is [code]1.0[/code].
+		</member>
+		<member name="doppler_scale" type="float" setter="set_doppler_scale" getter="get_doppler_scale" default="1.0">
+			Doppler effect multiplier. [code]0.0[/code] = off, [code]1.0[/code] = realistic, higher = exaggerated. Default is [code]1.0[/code].
+		</member>
+		<member name="rolloff_scale" type="float" setter="set_rolloff_scale" getter="get_rolloff_scale" default="1.0">
+			Distance attenuation scale multiplier. Default is [code]1.0[/code].
+		</member>
+	</members>
+</class>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodGeneralSettings" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		General initialization settings for the FMOD Studio system.
+	</brief_description>
+	<description>
+		FmodGeneralSettings configures the core FMOD Studio system. Pass an instance to [method FmodServer.init] when initializing manually, or configure the equivalent values in the FMOD section of Project Settings for auto-initialization.
+
+		[codeblock]
+		var settings = FmodGeneralSettings.new()
+		settings.channel_count = 1024
+		settings.is_live_update_enabled = false
+		settings.banks_path = "res://audio/"
+		FmodServer.init(settings)
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_banks_path">
+			<return type="String" />
+			<description>
+				Returns the path used for automatic bank loading.
+			</description>
+		</method>
+		<method name="get_channel_count">
+			<return type="int" />
+			<description>
+				Returns the maximum number of FMOD channels (virtual voices).
+			</description>
+		</method>
+		<method name="get_default_listener_count">
+			<return type="int" />
+			<description>
+				Returns the default number of listeners to initialize FMOD with.
+			</description>
+		</method>
+		<method name="get_is_live_update_enabled">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if FMOD Live Update is enabled, allowing the FMOD Studio editor to connect and adjust the mix at runtime.
+			</description>
+		</method>
+		<method name="get_is_memory_tracking_enabled">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if FMOD memory tracking is enabled.
+			</description>
+		</method>
+		<method name="get_should_load_by_name">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if banks should be located by name when using the auto-load path.
+			</description>
+		</method>
+		<method name="set_banks_path">
+			<return type="void" />
+			<param index="0" name="p_paths" type="String" />
+			<description>
+				Sets the directory path used for automatic bank loading.
+			</description>
+		</method>
+		<method name="set_channel_count">
+			<return type="void" />
+			<param index="0" name="p_channel_count" type="int" />
+			<description>
+				Sets the maximum number of FMOD channels (virtual voices). Higher values allow more simultaneous sounds but use more memory.
+			</description>
+		</method>
+		<method name="set_default_listener_count">
+			<return type="void" />
+			<param index="0" name="p_listener_count" type="int" />
+			<description>
+				Sets the default number of listeners. Use values above 1 only for split-screen or multi-listener setups.
+			</description>
+		</method>
+		<method name="set_is_live_update_enabled">
+			<return type="void" />
+			<param index="0" name="p_enable_live_update" type="bool" />
+			<description>
+				Enables or disables FMOD Live Update. Disable in release builds to avoid exposing a live-update server.
+			</description>
+		</method>
+		<method name="set_is_memory_tracking_enabled">
+			<return type="void" />
+			<param index="0" name="p_enable_memory_tracking" type="bool" />
+			<description>
+				Enables or disables FMOD memory usage tracking. Enable to see memory stats via [method FmodServer.get_performance_data].
+			</description>
+		</method>
+		<method name="set_should_load_by_name">
+			<return type="void" />
+			<param index="0" name="p_should_load_by_name" type="bool" />
+			<description>
+				Sets whether banks in the auto-load path should be located by name rather than by path.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="banks_path" type="String" setter="set_banks_path" getter="get_banks_path" default="&quot;res://&quot;">
+			Directory path used for automatic bank discovery and loading.
+		</member>
+		<member name="channel_count" type="int" setter="set_channel_count" getter="get_channel_count" default="1024">
+			Maximum number of FMOD channels (virtual voices). Default is 1024.
+		</member>
+		<member name="default_listener_count" type="int" setter="set_default_listener_count" getter="get_default_listener_count" default="1">
+			Initial number of FMOD listeners. Increase for split-screen. Default is 1.
+		</member>
+		<member name="is_live_update_enabled" type="bool" setter="set_is_live_update_enabled" getter="get_is_live_update_enabled" default="true">
+			Whether FMOD Live Update is active, allowing the FMOD Studio editor to connect at runtime. Disable in shipped builds.
+		</member>
+		<member name="is_memory_tracking_enabled" type="bool" setter="set_is_memory_tracking_enabled" getter="get_is_memory_tracking_enabled" default="false">
+			Whether FMOD memory tracking is enabled.
+		</member>
+		<member name="should_load_by_name" type="bool" setter="set_should_load_by_name" getter="get_should_load_by_name" default="false">
+			Whether to locate banks by name in the auto-load path.
+		</member>
+	</members>
+</class>

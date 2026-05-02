@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodSoftwareFormatSettings" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Software mixer format settings for the FMOD Core system.
+	</brief_description>
+	<description>
+		FmodSoftwareFormatSettings configures the sample rate and speaker layout used by FMOD's software mixer. Apply with [method FmodServer.set_software_format] before calling [method FmodServer.init].
+
+		[codeblock]
+		var fmt = FmodSoftwareFormatSettings.new()
+		fmt.sample_rate = 48000
+		fmt.speaker_mode = 2  # FMOD_SPEAKERMODE_STEREO
+		FmodServer.set_software_format(fmt)
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_raw_speakers_count">
+			<return type="int" />
+			<description>
+				Returns the number of raw speaker channels. Only used when [member speaker_mode] is set to the raw mode.
+			</description>
+		</method>
+		<method name="get_sample_rate">
+			<return type="int" />
+			<description>
+				Returns the sample rate in Hz.
+			</description>
+		</method>
+		<method name="get_speaker_mode">
+			<return type="int" />
+			<description>
+				Returns the [code]FMOD_SPEAKERMODE[/code] integer value.
+			</description>
+		</method>
+		<method name="set_raw_speakers_count">
+			<return type="void" />
+			<param index="0" name="p_raw_speakers_count" type="int" />
+			<description>
+				Sets the number of raw speaker output channels.
+			</description>
+		</method>
+		<method name="set_sample_rate">
+			<return type="void" />
+			<param index="0" name="p_sample_rate" type="int" />
+			<description>
+				Sets the sample rate in Hz. Common values are [code]44100[/code] and [code]48000[/code].
+			</description>
+		</method>
+		<method name="set_speaker_mode">
+			<return type="void" />
+			<param index="0" name="p_speaker_mode" type="int" />
+			<description>
+				Sets the speaker layout using a [code]FMOD_SPEAKERMODE[/code] value. Common values: [code]0[/code] = Default, [code]2[/code] = Stereo, [code]6[/code] = 5.1, [code]8[/code] = 7.1.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="raw_speakers_count" type="int" setter="set_raw_speakers_count" getter="get_raw_speakers_count" default="0">
+			Number of raw output channels. Only relevant when [member speaker_mode] is set to raw mode.
+		</member>
+		<member name="sample_rate" type="int" setter="set_sample_rate" getter="get_sample_rate" default="48000">
+			Output sample rate in Hz. Default is [code]48000[/code].
+		</member>
+		<member name="speaker_mode" type="int" setter="set_speaker_mode" getter="get_speaker_mode" default="2">
+			Speaker layout as an [code]FMOD_SPEAKERMODE[/code] value. Default is [code]2[/code] (Stereo).
+		</member>
+	</members>
+</class>

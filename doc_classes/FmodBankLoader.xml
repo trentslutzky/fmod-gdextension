@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodBankLoader" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A node that automatically loads FMOD Studio banks when it enters the scene tree.
+	</brief_description>
+	<description>
+		FmodBankLoader loads one or more FMOD Studio bank files when its parent scene is entered. This is a convenient way to ensure the right banks are loaded for a given level or screen without manual loading code.
+
+		Assign bank file paths to [member bank_paths] in the Inspector. All banks are loaded with [code]FMOD_STUDIO_LOAD_BANK_NORMAL[/code] (synchronous loading) when the node calls [code]_enter_tree[/code].
+
+		[b]Note:[/b] FmodBankLoader does nothing when running in the editor to avoid accidentally loading banks during design time.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_bank_paths">
+			<return type="Array" />
+			<description>
+				Returns the array of bank file paths configured on this node.
+			</description>
+		</method>
+		<method name="set_bank_paths">
+			<return type="void" />
+			<param index="0" name="p_paths" type="Array" />
+			<description>
+				Sets the array of bank file paths to load. Each element should be a [String] path to a [code].bank[/code] file (e.g. [code]"res://audio/Music.bank"[/code]).
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="bank_paths" type="Array" setter="set_bank_paths" getter="get_bank_paths" default="[]">
+			An array of paths to FMOD Studio [code].bank[/code] files. All listed banks are loaded when this node enters the scene tree.
+		</member>
+	</members>
+</class>

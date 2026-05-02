@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodParameterDescription" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Describes the properties and constraints of an FMOD Studio event parameter.
+	</brief_description>
+	<description>
+		FmodParameterDescription contains the metadata for a single FMOD Studio event parameter — its name, ID, value range, default value, and behavioral flags.
+
+		Obtain descriptions via [FmodEventDescription]:
+		[codeblock]
+		var desc = FmodServer.get_event("event:/SFX/Explosion")
+		var param = desc.get_parameter_by_name("Size")
+		print(param.get_minimum(), " to ", param.get_maximum())
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_default_value">
+			<return type="float" />
+			<description>
+				Returns the default value of the parameter as set in FMOD Studio.
+			</description>
+		</method>
+		<method name="get_id">
+			<return type="int" />
+			<description>
+				Returns the numerical ID of the parameter. Use this with the [code]_by_id[/code] variants on [FmodEvent] and [FmodEventDescription] for faster access than name-based lookups.
+			</description>
+		</method>
+		<method name="get_maximum">
+			<return type="float" />
+			<description>
+				Returns the maximum valid value for this parameter.
+			</description>
+		</method>
+		<method name="get_minimum">
+			<return type="float" />
+			<description>
+				Returns the minimum valid value for this parameter.
+			</description>
+		</method>
+		<method name="get_name">
+			<return type="String" />
+			<description>
+				Returns the name of the parameter as defined in FMOD Studio.
+			</description>
+		</method>
+		<method name="is_automatic">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if FMOD controls this parameter automatically (e.g. distance, direction). Automatic parameters cannot be set manually.
+			</description>
+		</method>
+		<method name="is_discrete">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the parameter only accepts integer (stepped) values rather than a continuous range.
+			</description>
+		</method>
+		<method name="is_global">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the parameter is global — shared across all instances of the event rather than per-instance.
+			</description>
+		</method>
+		<method name="is_labeled">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the parameter is a labeled enum. Use [method FmodEventDescription.get_parameter_labels_by_name] to retrieve the labels.
+			</description>
+		</method>
+		<method name="is_read_only">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the parameter is read-only and cannot be modified at runtime.
+			</description>
+		</method>
+	</methods>
+</class>

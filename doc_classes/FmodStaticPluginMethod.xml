@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodStaticPluginMethod" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Describes a single statically linked FMOD plugin entry point.
+	</brief_description>
+	<description>
+		FmodStaticPluginMethod identifies a static FMOD plugin by its type and the name of its registration function. Add instances of this resource to [member FmodPluginsSettings.static_plugins_methods] to register statically linked FMOD plugins at startup.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_method_name">
+			<return type="String" />
+			<description>
+				Returns the name of the plugin's registration function.
+			</description>
+		</method>
+		<method name="get_type">
+			<return type="int" />
+			<description>
+				Returns the plugin type as a [enum Type] value.
+			</description>
+		</method>
+		<method name="set_method_name">
+			<return type="void" />
+			<param index="0" name="p_method_name" type="String" />
+			<description>
+				Sets the name of the plugin's registration function.
+			</description>
+		</method>
+		<method name="set_type">
+			<return type="void" />
+			<param index="0" name="p_type" type="int" />
+			<description>
+				Sets the plugin type using a [enum Type] constant.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="method_name" type="String" setter="set_method_name" getter="get_method_name" default="&quot;&quot;">
+			The name of the C function used to register this plugin with FMOD.
+		</member>
+		<member name="type" type="int" setter="set_type" getter="get_type" default="0">
+			The plugin type: [constant CODEC], [constant DSP], or [constant OUTPUT].
+		</member>
+	</members>
+	<constants>
+		<constant name="CODEC" value="0" enum="Type">
+			A codec plugin that adds support for additional audio file formats.
+		</constant>
+		<constant name="DSP" value="1" enum="Type">
+			A DSP effect plugin.
+		</constant>
+		<constant name="OUTPUT" value="2" enum="Type">
+			An output plugin for custom audio output backends.
+		</constant>
+	</constants>
+</class>

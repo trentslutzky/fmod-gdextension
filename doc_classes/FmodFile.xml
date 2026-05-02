@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodFile" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A handle to a raw audio file loaded into the FMOD Core system.
+	</brief_description>
+	<description>
+		FmodFile is an opaque reference to an audio file loaded with [method FmodServer.load_file_as_sound] or [method FmodServer.load_file_as_music]. It does not expose playback controls directly; use [method FmodServer.create_sound_instance] to get a playable [FmodSound] from the loaded file.
+
+		Unload the file with [method FmodServer.unload_file] when it is no longer needed.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+	</methods>
+</class>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodDspSettings" inherits="Resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		DSP buffer size and count settings for the FMOD Core system.
+	</brief_description>
+	<description>
+		FmodDspSettings controls the DSP (Digital Signal Processing) buffer configuration. Smaller buffers reduce audio latency but increase CPU overhead. Apply with [method FmodServer.set_system_dsp_buffer_size] before calling [method FmodServer.init].
+
+		Read the current values back with [method FmodServer.get_system_dsp_buffer_settings].
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_dsp_buffer_count">
+			<return type="int" />
+			<description>
+				Returns the number of DSP buffers.
+			</description>
+		</method>
+		<method name="get_dsp_buffer_size">
+			<return type="int" />
+			<description>
+				Returns the DSP buffer size in samples.
+			</description>
+		</method>
+		<method name="set_dsp_buffer_count">
+			<return type="void" />
+			<param index="0" name="p_dsp_buffer_count" type="int" />
+			<description>
+				Sets the number of DSP buffers. More buffers increase stability at the cost of higher latency.
+			</description>
+		</method>
+		<method name="set_dsp_buffer_size">
+			<return type="void" />
+			<param index="0" name="p_dsp_buffer_size" type="int" />
+			<description>
+				Sets the DSP buffer size in samples. Typical values: [code]256[/code] (low latency), [code]512[/code] (default), [code]1024[/code] (stable).
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="dsp_buffer_count" type="int" setter="set_dsp_buffer_count" getter="get_dsp_buffer_count" default="4">
+			Number of DSP buffers. Default is [code]4[/code].
+		</member>
+		<member name="dsp_buffer_size" type="int" setter="set_dsp_buffer_size" getter="get_dsp_buffer_size" default="512">
+			DSP buffer size in samples. Default is [code]512[/code].
+		</member>
+	</members>
+</class>

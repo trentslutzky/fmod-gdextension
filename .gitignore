@@ -139,6 +139,7 @@ config.log
 **/*.editor
 
 demo/addons/fmod/libs/android/aar/
+src/gen/*.gen.cpp
 
 *.pdb
 .vs

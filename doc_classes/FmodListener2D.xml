@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodListener2D" inherits="Node2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A 2D node that acts as an FMOD audio listener.
+	</brief_description>
+	<description>
+		FmodListener2D registers this node's position as an FMOD audio listener. FMOD uses listener positions to spatialize audio from [FmodEventEmitter2D] nodes.
+
+		FMOD supports up to 8 simultaneous listeners (indices 0–7). The [member listener_index] must be unique across all listeners in the scene. Multiple listeners are blended according to their [member weight], which is useful for split-screen setups.
+
+		The listener automatically registers itself when entering the scene tree and unregisters when leaving.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_listener_index">
+			<return type="int" />
+			<description>
+				Returns the listener index (0–7).
+			</description>
+		</method>
+		<method name="get_listener_weight">
+			<return type="float" />
+			<description>
+				Returns the blend weight of this listener.
+			</description>
+		</method>
+		<method name="get_locked">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if this listener's position is locked and will not update automatically.
+			</description>
+		</method>
+		<method name="set_listener_index">
+			<return type="void" />
+			<param index="0" name="index" type="int" />
+			<description>
+				Sets the listener index (0–7). Each active listener must have a unique index.
+			</description>
+		</method>
+		<method name="set_listener_weight">
+			<return type="void" />
+			<param index="0" name="p_weight" type="float" />
+			<description>
+				Sets the blend weight of this listener. Used when multiple listeners are active to blend their influence on the final mix.
+			</description>
+		</method>
+		<method name="set_locked">
+			<return type="void" />
+			<param index="0" name="locked" type="bool" />
+			<description>
+				Locks or unlocks the listener. When locked, the listener's position is not updated from this node's transform. Use [method FmodServer.set_listener_transform2d] for manual control.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="is_locked" type="bool" setter="set_locked" getter="get_locked" default="false">
+			If [code]true[/code], the listener's position is not updated automatically from this node's transform.
+		</member>
+		<member name="listener_index" type="int" setter="set_listener_index" getter="get_listener_index" default="0">
+			The listener slot this node occupies (0–7). Must be unique among all active listeners.
+		</member>
+		<member name="weight" type="float" setter="set_listener_weight" getter="get_listener_weight" default="1.0">
+			Blend weight for this listener. Determines its influence relative to other active listeners.
+		</member>
+	</members>
+</class>

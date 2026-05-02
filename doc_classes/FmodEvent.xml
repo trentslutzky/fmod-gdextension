@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodEvent" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		An instance of a playing or ready-to-play FMOD Studio event.
+	</brief_description>
+	<description>
+		FmodEvent represents one instance of an FMOD Studio event. Create instances via [FmodServer] and start them with [method start]. Call [method release] when the instance is no longer needed so FMOD can clean it up after it stops.
+		[codeblock]
+		var ev = FmodServer.create_event_instance("event:/SFX/Explosion")
+		ev.set_parameter_by_name("Size", 1.0)
+		ev.start()
+		ev.release()
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="event_key_off">
+			<return type="void" />
+			<description>
+				Triggers the key-off point, allowing the event to advance past sustain points and enter its release phase.
+			</description>
+		</method>
+		<method name="get_2d_attributes">
+			<return type="Transform2D" />
+			<description>
+				Returns the current 2D spatial transform of the event.
+			</description>
+		</method>
+		<method name="get_3d_attributes">
+			<return type="Transform3D" />
+			<description>
+				Returns the current 3D spatial transform of the event.
+			</description>
+		</method>
+		<method name="get_listener_mask">
+			<return type="int" />
+			<description>
+				Returns the listener mask for this event. Each bit corresponds to a listener index.
+			</description>
+		</method>
+		<method name="get_parameter_by_id">
+			<return type="float" />
+			<param index="0" name="parameter_id" type="int" />
+			<description>
+				Returns the current value of the parameter with the given numerical ID.
+			</description>
+		</method>
+		<method name="get_parameter_by_name">
+			<return type="float" />
+			<param index="0" name="parameter_name" type="String" />
+			<description>
+				Returns the current value of the parameter with the given name.
+			</description>
+		</method>
+		<method name="get_paused">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event is currently paused.
+			</description>
+		</method>
+		<method name="get_pitch">
+			<return type="float" />
+			<description>
+				Returns the pitch multiplier. [code]1.0[/code] is normal pitch; higher values raise pitch.
+			</description>
+		</method>
+		<method name="get_playback_state">
+			<return type="int" />
+			<description>
+				Returns the current playback state as one of the [code]FMOD_STUDIO_PLAYBACK_*[/code] constants defined on this class.
+			</description>
+		</method>
+		<method name="get_programmer_callback_sound_key">
+			<return type="String" />
+			<description>
+				Returns the sound key used for programmer sound callbacks.
+			</description>
+		</method>
+		<method name="get_reverb_level">
+			<return type="float" />
+			<param index="0" name="index" type="int" />
+			<description>
+				Returns the wet level for the reverb bus at the given index.
+			</description>
+		</method>
+		<method name="get_timeline_position">
+			<return type="int" />
+			<description>
+				Returns the current playback position on the event's timeline in milliseconds.
+			</description>
+		</method>
+		<method name="get_volume">
+			<return type="float" />
+			<description>
+				Returns the volume multiplier. [code]1.0[/code] is normal volume.
+			</description>
+		</method>
+		<method name="is_valid">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the underlying FMOD event instance handle is still valid.
+			</description>
+		</method>
+		<method name="is_virtual">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event is virtual — audible but not consuming a real voice due to voice-stealing.
+			</description>
+		</method>
+		<method name="release">
+			<return type="void" />
+			<description>
+				Marks the event instance for release. FMOD will destroy the instance once it reaches the stopped state. Always call this when an instance is no longer needed to avoid voice leaks.
+			</description>
+		</method>
+		<method name="set_2d_attributes">
+			<return type="void" />
+			<param index="0" name="position" type="Transform2D" />
+			<description>
+				Sets the 2D spatial position and orientation of the event.
+			</description>
+		</method>
+		<method name="set_3d_attributes">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<description>
+				Sets the 3D spatial position and orientation of the event.
+			</description>
+		</method>
+		<method name="set_callback">
+			<return type="void" />
+			<param index="0" name="callback" type="Callable" />
+			<param index="1" name="p_callback_mask" type="int" />
+			<description>
+				Sets a [Callable] to receive FMOD event callbacks. The [param p_callback_mask] is a bitmask of [code]FMOD_STUDIO_EVENT_CALLBACK_*[/code] flags that determines which callback types to receive.
+			</description>
+		</method>
+		<method name="set_listener_mask">
+			<return type="void" />
+			<param index="0" name="mask" type="int" />
+			<description>
+				Sets the listener mask for this event. Each bit corresponds to a listener index. Only listeners whose bit is set will affect this event's spatialization.
+			</description>
+		</method>
+		<method name="set_node_attributes">
+			<return type="void" />
+			<param index="0" name="node" type="Node" />
+			<description>
+				Updates the event's spatial attributes from a node's current transform. Accepts both [Node2D] and [Node3D] nodes.
+			</description>
+		</method>
+		<method name="set_parameter_by_id">
+			<return type="void" />
+			<param index="0" name="parameter_id" type="int" />
+			<param index="1" name="value" type="float" />
+			<description>
+				Sets a parameter by its numerical ID.
+			</description>
+		</method>
+		<method name="set_parameter_by_id_with_label">
+			<return type="void" />
+			<param index="0" name="parameter_id" type="int" />
+			<param index="1" name="label" type="String" />
+			<param index="2" name="ignoreseekspeed" type="bool" default="false" />
+			<description>
+				Sets a labeled (enum) parameter by ID using the label string. If [param ignoreseekspeed] is [code]true[/code], the change is applied instantly regardless of the parameter's seek speed.
+			</description>
+		</method>
+		<method name="set_parameter_by_name">
+			<return type="void" />
+			<param index="0" name="parameter_name" type="String" />
+			<param index="1" name="value" type="float" />
+			<description>
+				Sets a parameter by name.
+			</description>
+		</method>
+		<method name="set_parameter_by_name_with_label">
+			<return type="void" />
+			<param index="0" name="parameter_name" type="String" />
+			<param index="1" name="label" type="String" />
+			<param index="2" name="ignoreseekspeed" type="bool" default="false" />
+			<description>
+				Sets a labeled (enum) parameter by name using the label string. If [param ignoreseekspeed] is [code]true[/code], the change is applied instantly.
+			</description>
+		</method>
+		<method name="set_paused">
+			<return type="void" />
+			<param index="0" name="paused" type="bool" />
+			<description>
+				Pauses or unpauses the event.
+			</description>
+		</method>
+		<method name="set_pitch">
+			<return type="void" />
+			<param index="0" name="pitch" type="float" />
+			<description>
+				Sets the pitch multiplier. [code]1.0[/code] is normal pitch.
+			</description>
+		</method>
+		<method name="set_programmer_callback">
+			<return type="void" />
+			<param index="0" name="p_programmers_callback_sound_key" type="String" />
+			<description>
+				Sets the sound key for programmer sound instruments. Used with FMOD Studio programmer instruments to dynamically supply audio assets at runtime.
+			</description>
+		</method>
+		<method name="set_reverb_level">
+			<return type="void" />
+			<param index="0" name="index" type="int" />
+			<param index="1" name="level" type="float" />
+			<description>
+				Sets the wet level for the reverb bus at the given index.
+			</description>
+		</method>
+		<method name="set_timeline_position">
+			<return type="void" />
+			<param index="0" name="position" type="int" />
+			<description>
+				Seeks the event's timeline to the given position in milliseconds.
+			</description>
+		</method>
+		<method name="set_volume">
+			<return type="void" />
+			<param index="0" name="volume" type="float" />
+			<description>
+				Sets the volume multiplier. [code]1.0[/code] is normal volume; [code]0.0[/code] is silent.
+			</description>
+		</method>
+		<method name="start">
+			<return type="void" />
+			<description>
+				Starts playback of the event instance.
+			</description>
+		</method>
+		<method name="stop">
+			<return type="void" />
+			<param index="0" name="stopMode" type="int" />
+			<description>
+				Stops the event. Pass [code]0[/code] ([code]FMOD_STUDIO_STOP_ALLOWFADEOUT[/code]) for a natural fade-out, or [code]1[/code] ([code]FMOD_STUDIO_STOP_IMMEDIATE[/code]) to stop instantly.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="listener_mask" type="int" setter="set_listener_mask" getter="get_listener_mask">
+			Bitmask controlling which listeners affect this event's spatialization.
+		</member>
+		<member name="paused" type="bool" setter="set_paused" getter="get_paused">
+			Whether the event is paused.
+		</member>
+		<member name="pitch" type="float" setter="set_pitch" getter="get_pitch">
+			Pitch multiplier. [code]1.0[/code] is normal pitch.
+		</member>
+		<member name="position" type="int" setter="set_timeline_position" getter="get_timeline_position">
+			Current timeline position in milliseconds.
+		</member>
+		<member name="transform_2d" type="Transform2D" setter="set_2d_attributes" getter="get_2d_attributes">
+			2D spatial transform of the event.
+		</member>
+		<member name="transform_3d" type="Transform3D" setter="set_node_attributes" getter="get_3d_attributes">
+			3D spatial transform of the event. Note: setting this property via script passes a [Node] to the underlying setter; use [method set_3d_attributes] to set from a [Transform3D] directly.
+		</member>
+		<member name="volume" type="float" setter="set_volume" getter="get_volume">
+			Volume multiplier. [code]1.0[/code] is normal volume.
+		</member>
+	</members>
+	<constants>
+		<constant name="FMOD_STUDIO_PLAYBACK_PLAYING" value="0" enum="FMOD_STUDIO_PLAYBACK_STATE">
+			The event is currently playing.
+		</constant>
+		<constant name="FMOD_STUDIO_PLAYBACK_SUSTAINING" value="1" enum="FMOD_STUDIO_PLAYBACK_STATE">
+			The event is sustaining at a sustain point.
+		</constant>
+		<constant name="FMOD_STUDIO_PLAYBACK_STOPPED" value="2" enum="FMOD_STUDIO_PLAYBACK_STATE">
+			The event has stopped.
+		</constant>
+		<constant name="FMOD_STUDIO_PLAYBACK_STARTING" value="3" enum="FMOD_STUDIO_PLAYBACK_STATE">
+			The event is in the process of starting.
+		</constant>
+		<constant name="FMOD_STUDIO_PLAYBACK_STOPPING" value="4" enum="FMOD_STUDIO_PLAYBACK_STATE">
+			The event is in the process of stopping.
+		</constant>
+		<constant name="FMOD_STUDIO_PLAYBACK_FORCEINT" value="65536" enum="FMOD_STUDIO_PLAYBACK_STATE">
+			Forces the enum to be stored as an int. Not a valid playback state.
+		</constant>
+	</constants>
+</class>

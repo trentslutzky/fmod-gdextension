@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodSound" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A playable instance of a raw audio file loaded outside of FMOD Studio banks.
+	</brief_description>
+	<description>
+		FmodSound plays back audio files loaded with [method FmodServer.load_file_as_sound] or [method FmodServer.load_file_as_music]. This is the low-level path for playing audio outside of FMOD Studio's event system.
+
+		[codeblock]
+		FmodServer.load_file_as_sound("res://audio/ambience.ogg")
+		var sound = FmodServer.create_sound_instance("res://audio/ambience.ogg")
+		sound.play()
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_pitch">
+			<return type="float" />
+			<description>
+				Returns the pitch multiplier. [code]1.0[/code] is normal pitch.
+			</description>
+		</method>
+		<method name="get_volume">
+			<return type="float" />
+			<description>
+				Returns the volume multiplier. [code]1.0[/code] is normal volume.
+			</description>
+		</method>
+		<method name="is_playing">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the sound is currently playing.
+			</description>
+		</method>
+		<method name="is_valid">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the underlying FMOD channel handle is still valid.
+			</description>
+		</method>
+		<method name="play">
+			<return type="void" />
+			<description>
+				Starts playback of the sound.
+			</description>
+		</method>
+		<method name="release">
+			<return type="void" />
+			<description>
+				Releases the sound instance and frees its resources.
+			</description>
+		</method>
+		<method name="set_paused">
+			<return type="void" />
+			<param index="0" name="paused" type="bool" />
+			<description>
+				Pauses or unpauses the sound.
+			</description>
+		</method>
+		<method name="set_pitch">
+			<return type="void" />
+			<param index="0" name="pitch" type="float" />
+			<description>
+				Sets the pitch multiplier. [code]1.0[/code] is normal pitch.
+			</description>
+		</method>
+		<method name="set_volume">
+			<return type="void" />
+			<param index="0" name="volume" type="float" />
+			<description>
+				Sets the volume multiplier. [code]1.0[/code] is normal volume.
+			</description>
+		</method>
+		<method name="stop">
+			<return type="void" />
+			<description>
+				Stops playback of the sound.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="pitch" type="float" setter="set_pitch" getter="get_pitch">
+			Pitch multiplier. [code]1.0[/code] is normal pitch.
+		</member>
+		<member name="volume" type="float" setter="set_volume" getter="get_volume">
+			Volume multiplier. [code]1.0[/code] is normal volume.
+		</member>
+	</members>
+</class>

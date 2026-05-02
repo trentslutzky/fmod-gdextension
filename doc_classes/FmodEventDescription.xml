@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodEventDescription" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Metadata and factory for FMOD Studio events.
+	</brief_description>
+	<description>
+		FmodEventDescription holds the static metadata for an FMOD Studio event definition. Use it to inspect event properties (3D, one-shot, parameters) and to create multiple [FmodEvent] instances. Obtain descriptions via [FmodServer]:
+		[codeblock]
+		var desc = FmodServer.get_event("event:/Music/Level1")
+		var inst = FmodServer.create_event_instance_from_description(desc)
+		inst.start()
+		inst.release()
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_guid">
+			<return type="String" />
+			<description>
+				Returns the GUID of this event as a string.
+			</description>
+		</method>
+		<method name="get_instance_count">
+			<return type="int" />
+			<description>
+				Returns the number of currently active instances created from this description.
+			</description>
+		</method>
+		<method name="get_instance_list">
+			<return type="Array" />
+			<description>
+				Returns an [Array] of all currently active [FmodEvent] instances created from this description.
+			</description>
+		</method>
+		<method name="get_length">
+			<return type="int" />
+			<description>
+				Returns the length of the event's timeline in milliseconds. Returns [code]-1[/code] for events with no defined length.
+			</description>
+		</method>
+		<method name="get_min_max_distance">
+			<return type="Array" />
+			<description>
+				Returns an [Array] of two floats [code][min, max][/code] representing the 3D attenuation distance range. Only meaningful for 3D events.
+			</description>
+		</method>
+		<method name="get_parameter_by_id">
+			<return type="FmodParameterDescription" />
+			<param index="0" name="id" type="int" />
+			<description>
+				Returns the [FmodParameterDescription] for the parameter with the given numerical ID.
+			</description>
+		</method>
+		<method name="get_parameter_by_index">
+			<return type="FmodParameterDescription" />
+			<param index="0" name="index" type="int" />
+			<description>
+				Returns the [FmodParameterDescription] at the given index (0 to [method get_parameter_count] - 1).
+			</description>
+		</method>
+		<method name="get_parameter_by_name">
+			<return type="FmodParameterDescription" />
+			<param index="0" name="name" type="String" />
+			<description>
+				Returns the [FmodParameterDescription] for the parameter with the given name.
+			</description>
+		</method>
+		<method name="get_parameter_count">
+			<return type="int" />
+			<description>
+				Returns the number of parameters this event has.
+			</description>
+		</method>
+		<method name="get_parameter_label_by_id">
+			<return type="String" />
+			<param index="0" name="id" type="int" />
+			<param index="1" name="label_index" type="int" />
+			<description>
+				Returns the label string at [param label_index] for the labeled (enum) parameter with the given ID.
+			</description>
+		</method>
+		<method name="get_parameter_label_by_index">
+			<return type="String" />
+			<param index="0" name="index" type="int" />
+			<param index="1" name="label_index" type="int" />
+			<description>
+				Returns the label string at [param label_index] for the labeled (enum) parameter at the given parameter index.
+			</description>
+		</method>
+		<method name="get_parameter_label_by_name">
+			<return type="String" />
+			<param index="0" name="parameter_name" type="String" />
+			<param index="1" name="label_index" type="int" />
+			<description>
+				Returns the label string at [param label_index] for the labeled (enum) parameter with the given name.
+			</description>
+		</method>
+		<method name="get_parameter_labels_by_id">
+			<return type="PackedStringArray" />
+			<param index="0" name="id" type="int" />
+			<description>
+				Returns all label strings for the labeled (enum) parameter with the given ID. Returns an empty array for non-labeled parameters.
+			</description>
+		</method>
+		<method name="get_parameter_labels_by_index">
+			<return type="PackedStringArray" />
+			<param index="0" name="index" type="int" />
+			<description>
+				Returns all label strings for the labeled (enum) parameter at the given parameter index.
+			</description>
+		</method>
+		<method name="get_parameter_labels_by_name">
+			<return type="PackedStringArray" />
+			<param index="0" name="parameter_name" type="String" />
+			<description>
+				Returns all label strings for the labeled (enum) parameter with the given name.
+			</description>
+		</method>
+		<method name="get_parameters">
+			<return type="Array" />
+			<description>
+				Returns an [Array] of all [FmodParameterDescription] objects for this event.
+			</description>
+		</method>
+		<method name="get_path">
+			<return type="String" />
+			<description>
+				Returns the path of this event (e.g. [code]"event:/Music/Level1"[/code]).
+			</description>
+		</method>
+		<method name="get_sample_loading_state">
+			<return type="int" />
+			<description>
+				Returns the loading state of this event's sample data. See [code]FMOD_STUDIO_LOADING_STATE[/code] values.
+			</description>
+		</method>
+		<method name="get_sound_size">
+			<return type="float" />
+			<description>
+				Returns the sound size used for 3D occlusion calculations. Only meaningful for 3D events.
+			</description>
+		</method>
+		<method name="get_user_property">
+			<return type="Dictionary" />
+			<param index="0" name="name" type="String" />
+			<description>
+				Returns the user property with the given name as a [Dictionary]. User properties are set on the event in FMOD Studio.
+			</description>
+		</method>
+		<method name="get_user_property_count">
+			<return type="int" />
+			<description>
+				Returns the number of user properties on this event.
+			</description>
+		</method>
+		<method name="has_sustain_point">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event has one or more sustain points. Use [method FmodEvent.event_key_off] to advance past a sustain point.
+			</description>
+		</method>
+		<method name="is_3d">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event is designed for 3D spatialization.
+			</description>
+		</method>
+		<method name="is_one_shot">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event is a one-shot that stops and releases automatically.
+			</description>
+		</method>
+		<method name="is_snapshot">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event is a snapshot (applies a global mix state rather than playing audio).
+			</description>
+		</method>
+		<method name="is_stream">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event streams its audio from disk rather than loading it fully into memory.
+			</description>
+		</method>
+		<method name="is_valid">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the underlying FMOD event description handle is still valid.
+			</description>
+		</method>
+		<method name="load_sample_data">
+			<return type="void" />
+			<description>
+				Pre-loads this event's sample data into memory to avoid hitches on first playback. Use [method unload_sample_data] to release it.
+			</description>
+		</method>
+		<method name="release_all_instances">
+			<return type="void" />
+			<description>
+				Calls [method FmodEvent.release] on all currently active instances of this event.
+			</description>
+		</method>
+		<method name="unload_sample_data">
+			<return type="void" />
+			<description>
+				Releases pre-loaded sample data from memory.
+			</description>
+		</method>
+		<method name="user_property_by_index">
+			<return type="Dictionary" />
+			<param index="0" name="index" type="int" />
+			<description>
+				Returns the user property at the given index as a [Dictionary].
+			</description>
+		</method>
+	</methods>
+</class>

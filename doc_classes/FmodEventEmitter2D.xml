@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodEventEmitter2D" inherits="Node2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		A 2D node that plays an FMOD Studio event and tracks its position automatically.
+	</brief_description>
+	<description>
+		FmodEventEmitter2D attaches an FMOD Studio event to a [Node2D]. When [member attached] is [code]true[/code], the event's 2D position is updated each frame to match this node's [code]global_position[/code], providing automatic positional audio in 2D scenes.
+
+		Set [member event_name] in the Inspector or via script, optionally enable [member autoplay], and the emitter handles the rest.
+		[codeblock]
+		var emitter = FmodEventEmitter2D.new()
+		emitter.event_name = "event:/SFX/Footstep"
+		add_child(emitter)
+		emitter.play()
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_event">
+			<return type="FmodEvent" />
+			<description>
+				Returns the underlying [FmodEvent] instance, or [code]null[/code] if no event is currently loaded.
+			</description>
+		</method>
+		<method name="get_parameter">
+			<return type="Variant" />
+			<param index="0" name="p_name" type="String" />
+			<description>
+				Returns the current value of the named event parameter.
+			</description>
+		</method>
+		<method name="get_parameter_by_id">
+			<return type="Variant" />
+			<param index="0" name="p_id" type="int" />
+			<description>
+				Returns the current value of the event parameter with the given numerical ID.
+			</description>
+		</method>
+		<method name="is_paused">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the event is currently paused.
+			</description>
+		</method>
+		<method name="play">
+			<return type="void" />
+			<param index="0" name="restart_if_playing" type="bool" default="true" />
+			<description>
+				Starts the event. If [param restart_if_playing] is [code]true[/code] and the event is already playing, it restarts from the beginning.
+			</description>
+		</method>
+		<method name="play_one_shot">
+			<return type="void" />
+			<description>
+				Plays the event as a one-shot: creates a new instance, starts it, and releases it automatically. The [member event_name] must reference a one-shot event.
+			</description>
+		</method>
+		<method name="set_parameter">
+			<return type="void" />
+			<param index="0" name="p_name" type="String" />
+			<param index="1" name="p_property" type="Variant" />
+			<description>
+				Sets the value of the named event parameter. The change is applied immediately if the event is playing.
+			</description>
+		</method>
+		<method name="set_parameter_by_id">
+			<return type="void" />
+			<param index="0" name="p_id" type="int" />
+			<param index="1" name="p_property" type="Variant" />
+			<description>
+				Sets the value of the event parameter with the given numerical ID.
+			</description>
+		</method>
+		<method name="set_paused">
+			<return type="void" />
+			<param index="0" name="p_is_paused" type="bool" />
+			<description>
+				Pauses or unpauses the event.
+			</description>
+		</method>
+		<method name="set_programmer_callback">
+			<return type="void" />
+			<param index="0" name="p_programmers_callback_sound_key" type="String" />
+			<description>
+				Sets the programmer sound key for programmer instrument callbacks on this event.
+			</description>
+		</method>
+		<method name="stop">
+			<return type="void" />
+			<description>
+				Stops the event. Respects [member allow_fadeout].
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="allow_fadeout" type="bool" setter="set_allow_fadeout" getter="is_allow_fadeout" default="true">
+			If [code]true[/code], the event fades out naturally when stopped. If [code]false[/code], it stops immediately.
+		</member>
+		<member name="attached" type="bool" setter="set_attached" getter="is_attached" default="true">
+			If [code]true[/code], the event's 2D position is updated each frame from this node's [code]global_position[/code].
+		</member>
+		<member name="auto_release" type="bool" setter="set_auto_release" getter="is_auto_release" default="false">
+			If [code]true[/code], the event instance is automatically released when it finishes playing.
+		</member>
+		<member name="autoplay" type="bool" setter="set_autoplay" getter="is_autoplay" default="false">
+			If [code]true[/code], the event starts playing automatically when this node enters the scene tree.
+		</member>
+		<member name="event_guid" type="String" setter="set_event_guid" getter="get_event_guid" default="&quot;&quot;">
+			The GUID of the FMOD Studio event. Set automatically when [member event_name] is assigned. Provides a stable event reference that survives event renames in FMOD Studio.
+		</member>
+		<member name="event_name" type="String" setter="set_event_name" getter="get_event_name" default="&quot;&quot;">
+			The FMOD Studio event path (e.g. [code]"event:/SFX/Footstep"[/code]). The bank containing this event must be loaded before playback.
+		</member>
+		<member name="paused" type="bool" setter="set_paused" getter="is_paused">
+			If [code]true[/code], the event is currently paused. Does not appear in the Inspector but is accessible from script. Equivalent to calling [method set_paused] / [method is_paused].
+		</member>
+		<member name="preload_event" type="bool" setter="set_preload_event" getter="is_preload_event" default="true">
+			If [code]true[/code], the event instance is created when this node enters the scene tree even if [member autoplay] is disabled. Reduces startup latency when the event needs to play quickly.
+		</member>
+		<member name="volume" type="float" setter="set_volume" getter="get_volume" default="1.0">
+			Volume multiplier for the event. [code]1.0[/code] is the volume set in FMOD Studio.
+		</member>
+	</members>
+	<signals>
+		<signal name="restarted">
+			<description>
+				Emitted when the event is restarted.
+			</description>
+		</signal>
+		<signal name="start_failed">
+			<description>
+				Emitted when the event fails to start.
+			</description>
+		</signal>
+		<signal name="started">
+			<description>
+				Emitted when the event starts playing.
+			</description>
+		</signal>
+		<signal name="stopped">
+			<description>
+				Emitted when the event stops.
+			</description>
+		</signal>
+		<signal name="timeline_beat">
+			<param index="0" name="params" type="Dictionary" />
+			<description>
+				Emitted when the event's timeline crosses a beat marker. [param params] contains beat information from FMOD.
+			</description>
+		</signal>
+		<signal name="timeline_marker">
+			<param index="0" name="params" type="Dictionary" />
+			<description>
+				Emitted when the event's timeline crosses a named marker. [param params] contains marker information from FMOD.
+			</description>
+		</signal>
+	</signals>
+</class>

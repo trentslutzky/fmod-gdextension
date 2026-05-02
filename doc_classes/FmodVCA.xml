@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="FmodVCA" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		An FMOD Studio VCA (Volume Control Automation) for centralized volume control.
+	</brief_description>
+	<description>
+		FmodVCA is a volume multiplier that can affect multiple buses simultaneously without routing audio through it. VCAs are ideal for player-facing volume controls such as Master, Music, and SFX sliders.
+
+		Obtain a VCA with [method FmodServer.get_vca]:
+		[codeblock]
+		var master_vca = FmodServer.get_vca("vca:/Master")
+		master_vca.set_volume(0.8)
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_guid">
+			<return type="String" />
+			<description>
+				Returns the GUID of this VCA as a string.
+			</description>
+		</method>
+		<method name="get_path">
+			<return type="String" />
+			<description>
+				Returns the path of this VCA (e.g. [code]"vca:/Master"[/code]).
+			</description>
+		</method>
+		<method name="get_volume">
+			<return type="float" />
+			<description>
+				Returns the current volume multiplier. [code]1.0[/code] is normal; [code]0.0[/code] is silent.
+			</description>
+		</method>
+		<method name="is_valid">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the underlying FMOD VCA handle is still valid.
+			</description>
+		</method>
+		<method name="set_volume">
+			<return type="void" />
+			<param index="0" name="volume" type="float" />
+			<description>
+				Sets the volume multiplier. [code]1.0[/code] is normal; [code]0.0[/code] is silent. Changes apply immediately to all buses connected to this VCA.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="volume" type="float" setter="set_volume" getter="get_volume">
+			Volume multiplier. [code]1.0[/code] is normal volume.
+		</member>
+	</members>
+</class>
