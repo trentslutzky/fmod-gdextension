@@ -38,6 +38,8 @@ void FmodEvent::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_callback", "callback", "callbackMask"), &FmodEvent::set_callback);
     ClassDB::bind_method(D_METHOD("set_programmer_callback", "p_programmers_callback_sound_key"), &FmodEvent::set_programmer_callback);
     ClassDB::bind_method(D_METHOD("get_programmer_callback_sound_key"), &FmodEvent::get_programmers_callback_sound_key);
+    ClassDB::bind_method(D_METHOD("set_programmer_sound_stream", "stream"), &FmodEvent::set_programmer_sound_stream);
+    ClassDB::bind_method(D_METHOD("get_programmer_sound_stream"), &FmodEvent::get_programmer_sound_stream);
     ClassDB::bind_method(D_METHOD("is_valid"), &FmodEvent::is_valid);
     ClassDB::bind_method(D_METHOD("release"), &FmodEvent::release);
 
@@ -250,6 +252,20 @@ const Callable& FmodEvent::get_callback() const {
 
 const String& FmodEvent::get_programmers_callback_sound_key() const {
     return programmers_callback_sound_key;
+}
+
+void FmodEvent::set_programmer_sound_stream(const Ref<FmodPcmStream>& p_stream) {
+    programmer_sound_stream = p_stream;
+    programmer_stream_sound.store(p_stream.is_valid() ? p_stream->get_sound() : nullptr);
+    ERROR_CHECK(_wrapped->setCallback(Callbacks::event_callback, callback_mask | FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND | FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND));
+}
+
+Ref<FmodPcmStream> FmodEvent::get_programmer_sound_stream() const {
+    return programmer_sound_stream;
+}
+
+FMOD::Sound* FmodEvent::get_programmer_stream_sound() const {
+    return programmer_stream_sound.load();
 }
 
 void FmodEvent::set_distance_scale(float scale){

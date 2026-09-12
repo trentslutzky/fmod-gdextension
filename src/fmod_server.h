@@ -2,6 +2,7 @@
 #define GODOTFMOD_FMOD_SERVER_H
 
 #include "core/fmod_file.h"
+#include "core/fmod_pcm_stream.h"
 #include "core/fmod_sound.h"
 #include "data/performance_data.h"
 #include "fmod_cache.h"
@@ -33,6 +34,10 @@
 #include <fmod_studio.hpp>
 #include <godot.hpp>
 #include <variant/utility_functions.hpp>
+
+#include <memory>
+#include <mutex>
+#include <vector>
 
 namespace godot {
 
@@ -109,6 +114,14 @@ namespace godot {
         // TODO: Change when https://github.com/godotengine/godot-cpp/pull/1091 is merged.
         Ref<Mutex> callback_mutex;
         List<Callback> callbacks_to_process;
+
+        // Every pcm stream ever created, kept until its sound is released so FMOD's stream thread never
+        // reads a freed core. Pruned in update(), emptied in shutdown().
+        std::mutex pcm_streams_mutex;
+        std::vector<std::shared_ptr<PcmStreamCore>> pcm_streams;
+
+        void _prune_pcm_streams();
+        void _release_all_pcm_streams();
 
 
         void _set_listener_attributes();
@@ -225,6 +238,7 @@ namespace godot {
         Ref<FmodSound> create_sound_instance(const String& path);
         FMOD_STUDIO_SOUND_INFO get_sound_info(const String& sound_key) const;
         FMOD::Sound* create_sound(FMOD_STUDIO_SOUND_INFO& sound_info, FMOD_MODE mode) const;
+        Ref<FmodPcmStream> create_pcm_stream(int sample_rate, int channels, float capacity_sec, int decode_buffer_frames = 0);
 
         //CALLBACKS
         void add_callback(const Callback& callback);

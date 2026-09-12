@@ -34,6 +34,7 @@ namespace godot {
 
         String _event_name;
         String _programmer_callback_sound_key;
+        Ref<FmodPcmStream> _programmer_sound_stream;
         LocalVector<Parameter> _parameters;
         FMOD_GUID _event_guid;
         float _volume = 1.0;
@@ -78,6 +79,8 @@ namespace godot {
         float get_volume() const;
 
         void set_programmer_callback(const String& p_programmers_callback_sound_key);
+        void set_programmer_sound_stream(const Ref<FmodPcmStream>& p_stream);
+        Ref<FmodPcmStream> get_programmer_sound_stream() const;
 
 #ifdef TOOLS_ENABLED
         void tool_remove_all_parameters();
@@ -259,6 +262,9 @@ namespace godot {
         if (!_programmer_callback_sound_key.is_empty()) {
             event->set_programmer_callback(_programmer_callback_sound_key);
         }
+        if (_programmer_sound_stream.is_valid()) {
+            event->set_programmer_sound_stream(_programmer_sound_stream);
+        }
 
         if (!should_start_event && event->get_playback_state() != FMOD_STUDIO_PLAYBACK_STOPPED) {
             return;
@@ -385,6 +391,10 @@ namespace godot {
         }
 
         _event->set_callback(Callable(this, "_emit_callbacks"), FMOD_STUDIO_EVENT_CALLBACK_ALL);
+
+        if (_programmer_sound_stream.is_valid()) {
+            _event->set_programmer_sound_stream(_programmer_sound_stream);
+        }
     }
 
     template<class Derived, class NodeType>
@@ -554,6 +564,20 @@ namespace godot {
     template<class Derived, class NodeType>
     void FmodEventEmitter<Derived, NodeType>::set_programmer_callback(const String &p_programmers_callback_sound_key) {
         _programmer_callback_sound_key = p_programmers_callback_sound_key;
+    }
+
+    template<class Derived, class NodeType>
+    void FmodEventEmitter<Derived, NodeType>::set_programmer_sound_stream(const Ref<FmodPcmStream>& p_stream) {
+        _programmer_sound_stream = p_stream;
+
+        // The event is recreated on every play, which re-attaches the stream; only a live one needs it now.
+        if (_event.is_null() || !_event->is_valid()) { return; }
+        _event->set_programmer_sound_stream(p_stream);
+    }
+
+    template<class Derived, class NodeType>
+    Ref<FmodPcmStream> FmodEventEmitter<Derived, NodeType>::get_programmer_sound_stream() const {
+        return _programmer_sound_stream;
     }
 
     template<class Derived, class NodeType>
@@ -862,6 +886,8 @@ namespace godot {
         ClassDB::bind_method(D_METHOD("get_volume"), &Derived::get_volume);
         ClassDB::bind_method(D_METHOD("set_volume", "p_volume"), &Derived::set_volume);
         ClassDB::bind_method(D_METHOD("set_programmer_callback", "p_programmers_callback_sound_key"), &Derived::set_programmer_callback);
+        ClassDB::bind_method(D_METHOD("set_programmer_sound_stream", "stream"), &Derived::set_programmer_sound_stream);
+        ClassDB::bind_method(D_METHOD("get_programmer_sound_stream"), &Derived::get_programmer_sound_stream);
         ClassDB::bind_method(D_METHOD("_emit_callbacks", "dict", "type"), &Derived::_emit_callbacks);
 
 #ifdef TOOLS_ENABLED

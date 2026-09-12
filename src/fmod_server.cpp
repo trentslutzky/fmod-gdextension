@@ -134,6 +134,7 @@ void FmodServer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("unmute_all_events"), &FmodServer::unmute_all_events);
 
     ClassDB::bind_method(D_METHOD("create_sound_instance", "path"), &FmodServer::create_sound_instance);
+    ClassDB::bind_method(D_METHOD("create_pcm_stream", "sample_rate", "channels", "capacity_sec", "decode_buffer_frames"), &FmodServer::create_pcm_stream, DEFVAL(0));
     REGISTER_ALL_CONSTANTS
 }
 
@@ -259,6 +260,8 @@ void FmodServer::update() {
         if (!event->is_valid()) { runningEvents.erase(event); }
     }
 
+    _prune_pcm_streams();
+
 #ifdef TOOLS_ENABLED
     if (!Engine::get_singleton()->is_editor_hint()) {
 #endif
@@ -307,6 +310,7 @@ void FmodServer::shutdown() {
 
     isInitialized = false;
     isNotInitializedPrinted = false;
+    _release_all_pcm_streams();
     ERROR_CHECK(system->unloadAll());
     ERROR_CHECK(system->release());
     system = nullptr;
@@ -865,6 +869,37 @@ void FmodServer::unload_file(const String& path) {
     }
     cache->remove_file(path);
     GODOT_LOG_VERBOSE("FMOD Sound System: UNLOADING FILE" + String(path))
+}
+
+Ref<FmodPcmStream> FmodServer::create_pcm_stream(int sample_rate, int channels, float capacity_sec, int decode_buffer_frames) {
+    if (!isInitialized) {
+        GODOT_LOG_ERROR("FMOD Sound System: Fmod should be initialized before creating a pcm stream")
+        return {};
+    }
+
+    Ref<FmodPcmStream> stream = FmodPcmStream::create(coreSystem, sample_rate, channels, capacity_sec, decode_buffer_frames);
+    if (stream.is_null()) { return {}; }
+
+    std::lock_guard<std::mutex> guard(pcm_streams_mutex);
+    pcm_streams.push_back(stream->get_core());
+    return stream;
+}
+
+void FmodServer::_prune_pcm_streams() {
+    std::lock_guard<std::mutex> guard(pcm_streams_mutex);
+    for (size_t i = pcm_streams.size(); i > 0; --i) {
+        const std::shared_ptr<PcmStreamCore>& core = pcm_streams[i - 1];
+        if (core->released.load() && core->in_use.load() == 0) { pcm_streams.erase(pcm_streams.begin() + static_cast<long>(i - 1)); }
+    }
+}
+
+void FmodServer::_release_all_pcm_streams() {
+    std::lock_guard<std::mutex> guard(pcm_streams_mutex);
+    for (const std::shared_ptr<PcmStreamCore>& core : pcm_streams) {
+        core->release_sound();
+        core->system_alive.store(false);
+    }
+    pcm_streams.clear();
 }
 
 Ref<FmodSound> FmodServer::create_sound_instance(const String& path) {

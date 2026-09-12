@@ -2,8 +2,11 @@
 #define GODOTFMOD_FMOD_EVENT_H
 
 #include "classes/ref_counted.hpp"
+#include "core/fmod_pcm_stream.h"
 #include "fmod_studio.hpp"
 #include "helpers/common.h"
+
+#include <atomic>
 
 namespace godot {
     class FmodEvent : public RefCounted {
@@ -11,8 +14,11 @@ namespace godot {
 
         Callable eventCallback;
         String programmers_callback_sound_key;
+        Ref<FmodPcmStream> programmer_sound_stream;
+        // Read from FMOD's studio thread inside the programmer sound callbacks.
+        std::atomic<FMOD::Sound*> programmer_stream_sound {nullptr};
         float distanceScale = 1.0f;
-        uint32_t callback_mask;
+        uint32_t callback_mask = 0;
 
     public:
         FmodEvent() = default;
@@ -54,6 +60,9 @@ namespace godot {
         const Callable& get_callback() const;
         void set_programmer_callback(const String& p_programmers_callback_sound_key);
         const String& get_programmers_callback_sound_key() const;
+        void set_programmer_sound_stream(const Ref<FmodPcmStream>& p_stream);
+        Ref<FmodPcmStream> get_programmer_sound_stream() const;
+        FMOD::Sound* get_programmer_stream_sound() const;
         void set_distance_scale(float scale);
 
     protected:
